@@ -6,6 +6,7 @@ resource "tls_private_key" "ssh_key" {
 resource "vault_generic_endpoint" "vault_signed_ssh_certs" {
   data_json = jsonencode({
     public_key = tls_private_key.ssh_key.public_key_openssh
+    valid_principals = "ubuntu"
   })
   path = "ssh-client-signer/sign/my-role"
   write_fields = [ "signed_key" ]
