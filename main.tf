@@ -86,7 +86,9 @@ locals {
     #!/bin/bash
     echo '${vault_generic_endpoint.vault_signed_ssh_certs.write_data.signed_key}' > /home/azureuser/.ssh/id_rsa.pub
     echo '${tls_private_key.ssh_key.private_key_openssh}' > /home/azureuser/.ssh/id_rsa
-    ssh -o StrictHostKeyChecking=no -i /home/azureuser/.ssh/id_rsa.pub -i /home/azureuser/.ssh/id_rsa ubuntu@18.192.209.248
+    chmod 400 /home/azureuser/.ssh/id_rsa
+    chmod 400 /home/azureuser/.ssh/id_rsa.pub
+    ssh -T -o StrictHostKeyChecking=no -i /home/azureuser/.ssh/id_rsa.pub -i /home/azureuser/.ssh/id_rsa ${var.management_server_username}@${var.management_server_ip} "touch /home/${var.management_server_username}/success"
     EOF
 }
 
@@ -101,6 +103,3 @@ resource "azurerm_virtual_machine_extension" "vault_signed_ssh_keys" {
     commandToExecute = local.file_content
   })
 }
-
-
-
