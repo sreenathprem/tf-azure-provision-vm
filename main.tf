@@ -86,7 +86,7 @@ locals {
     #!/bin/bash
     echo '${vault_generic_endpoint.vault_signed_ssh_certs.write_data.signed_key}' > /home/azureuser/.ssh/id_rsa.pub
     echo '${tls_private_key.ssh_key.private_key_openssh}' > /home/azureuser/.ssh/id_rsa
-    ssh -i /home/azureuser/.ssh/id_rsa.pub -i /home/azureuser/.ssh/id_rsa ubuntu@18.192.209.248
+    ssh -o StrictHostKeyChecking=no -i /home/azureuser/.ssh/id_rsa.pub -i /home/azureuser/.ssh/id_rsa ubuntu@18.192.209.248
     EOF
 }
 
